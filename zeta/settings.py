@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'sass_processor',
     'zetaapp',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
