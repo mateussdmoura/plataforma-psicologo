@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
-from .models import Therapist, Patient
+from api.models import User
+from api.ger_therapists.models import Therapist
+from api.ger_patients.models import Patient
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
