@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'zetaapp',
     'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
