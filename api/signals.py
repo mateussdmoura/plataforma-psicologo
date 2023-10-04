@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from api.ger_patients.models import Patient 
-from api.users.models import User
+from api.models import User
 from api.ger_therapists.models import Therapist
 
 @receiver(post_save, sender=User)
