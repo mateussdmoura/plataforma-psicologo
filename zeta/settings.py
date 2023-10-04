@@ -140,5 +140,5 @@ SASS_PROCESSOR_ROOT = BASE_DIR / 'static'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'api.users.User'
+AUTH_USER_MODEL = 'api.User'
 
