@@ -5,6 +5,10 @@ from api.ger_patients.models import Patient
 from api.ger_therapists.models import Therapist
 from appointments.models import Appointment, AppointmentState
 from api.models import User
+from datetime import datetime, timedelta
+from rest_framework.test import APIClient
+from django.urls import reverse
+from rest_framework import status
 
 class AppointmentTestCase(TestCase):
     def setUp(self):
@@ -48,3 +52,34 @@ class AppointmentTestCase(TestCase):
         self.assertEqual(appointment.therapist, self.therapist)
         self.assertEqual(appointment.requested_by, self.patient_user)  # Verify the requester
         self.assertEqual(appointment.state, AppointmentState.SCHEDULED.value)
+
+class AppointmentViewSetTestCase(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.therapist_user = User.objects.create_user(username='therapist', password='testpassword', is_therapist=True)
+        self.patient_user = User.objects.create_user(username='patient', password='testpassword')
+        self.client.force_authenticate(user=self.therapist_user)
+
+        # Create a therapist and a patient
+        self.therapist = Therapist.objects.get(user=self.therapist_user)
+        self.patient = Patient.objects.get(user=self.patient_user)
+
+    def test_create_appointment(self):
+        # Define the data for creating an appointment
+        appointment_data = {
+            "title": "Meeting with Client",
+            "notes": "Discuss project details",
+            "start_time": datetime.now().isoformat(),
+            "end_time": (datetime.now() + timedelta(hours=1)).isoformat(),
+            "therapist": self.therapist.id,
+            "patient": self.patient.id,
+        }
+
+        # Send a POST request to create the appointment
+        response = self.client.post(reverse('appointment-list'), appointment_data, format='json')
+
+        # Check if the request was successful (status code 201 CREATED)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        # Check if the appointment was created in the database
+        self.assertTrue(Appointment.objects.filter(title="Meeting with Client").exists())

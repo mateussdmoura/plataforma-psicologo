@@ -33,6 +33,7 @@ class Appointment(models.Model):
             user = kwargs.get('user')  # Assuming 'user' is passed in as a keyword argument
             if user:
                 self.requested_by = user
+        super(Appointment, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"[{self.state}] Appointment for {self.patient} with {self.therapist}"
