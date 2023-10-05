@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'zetaapp',
     'rest_framework',
     'api',
+    'appointments'
 ]
 
 MIDDLEWARE = [
