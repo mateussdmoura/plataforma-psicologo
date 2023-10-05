@@ -8,6 +8,10 @@ from api.ger_therapists.models import Therapist
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         if instance.is_therapist:
-            Therapist.objects.create(user=instance)
+            # Check if a Therapist instance already exists for this user
+            therapist, _created = Therapist.objects.get_or_create(user=instance)
+            if _created:
+                # Perform additional setup for a new Therapist instance if needed
+                pass
         else:
             Patient.objects.create(user=instance)
