@@ -12,6 +12,7 @@ class AppointmentState(Enum):
     DONE = "DONE"
 
 class Appointment(models.Model):
+    title = models.CharField(max_length=40, null=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
@@ -22,6 +23,7 @@ class Appointment(models.Model):
         choices=[(state.value, state.name) for state in AppointmentState],
         default=AppointmentState.SCHEDULED.value
     )
+    notes = models.CharField(max_length=200, null=True)
     
     def save(self, *args, **kwargs):
         # Check if the requested_by field is not set
