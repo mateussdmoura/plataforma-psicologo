@@ -3,6 +3,7 @@ from api.ger_therapists.models import Therapist
 from api.ger_patients.models import Patient
 from api.models import User
 from enum import Enum
+from django.utils import timezone  # Import the timezone module
 
 class AppointmentState(Enum):
     REQUESTED = "REQUESTED"
@@ -24,7 +25,7 @@ class Appointment(models.Model):
         default=AppointmentState.SCHEDULED.value
     )
     notes = models.CharField(max_length=200, null=True)
-    
+    created_at = models.DateTimeField(default=timezone.now)    
     def save(self, *args, **kwargs):
         # Check if the requested_by field is not set
         if not self.requested_by:
